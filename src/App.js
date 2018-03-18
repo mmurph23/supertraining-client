@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Navbar, NavItem, Nav } from "react-bootstrap";
 import Routes from "./Routes";
 import RouteNavItem from "./components/RouteNavItem";
@@ -38,6 +38,8 @@ class App extends Component {
     signOutUser();
   
     this.userHasAuthenticated(false);
+
+    this.props.history.push("/login");
   }
 
   render() {
@@ -76,4 +78,4 @@ class App extends Component {
     );
   }
 }
-export default App;
+export default withRouter(App);

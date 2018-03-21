@@ -1,3 +1,8 @@
+## Project Overview
+This project utilizes a serverless backend to support a client that connects users with the Strava API and utilizes their base activity mileage to track progress towards fundraising goals (ex., user will log 500 miles on Strava, and viewers will sponser user at x amount per mile towards a certain charity, etc.). 
+
+
+## CRA Readme
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>

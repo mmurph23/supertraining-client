@@ -63,7 +63,7 @@ export function signOutUser() {
   
     AWS.config.update({ region: config.cognito.REGION });
   
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    AWS.config.credentials = new AWS.CgognitoIdentityCredentials({
       IdentityPoolId: config.cognito.IDENTITY_POOL_ID,
       Logins: {
         [authenticator]: userToken
@@ -82,7 +82,11 @@ export function signOutUser() {
   }) {
     if (!await authUser()) {
       throw new Error("User is not logged in");
-    }
+    } //else {
+    //   // console.log(JSON.stringify(AWS.config.credentials.accessKeyId))
+    //   // console.log(JSON.stringify(AWS.config.credentials.secretAccessKey))
+    //   // console.log(JSON.stringify(AWS.config.credentials.sessionToken))
+    // }
   
     const signedRequest = sigV4Client
       .newClient({

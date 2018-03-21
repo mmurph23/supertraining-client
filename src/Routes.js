@@ -7,11 +7,13 @@ import AppliedRoute from "./components/AppliedRoute";
 import Signup from "./containers/Signup";
 import NewChallenge from "./containers/NewChallenge";
 import Challenges from "./containers/Challenges";
+import Dashboard from "./containers/Dashboard";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
 
 export default ({ childProps }) =>
   <Switch>
+    {/* <Route path='/dashboard' component={Dashboard} /> */}
     <AppliedRoute path="/" exact component={Home} props={childProps} />
     <UnauthenticatedRoute path="/login" exact component={Login} props={childProps} />
     <UnauthenticatedRoute path="/signup" exact component={Signup} props={childProps} />

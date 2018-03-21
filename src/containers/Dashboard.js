@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
 import { invokeApig } from '../libs/awsLib';
-import "./Home.css";
+import "./Dashboard.css";
 
-export default class Home extends Component {
+export default class Dashboard extends Component {
   constructor(props) {
     super(props);
 
@@ -34,11 +35,36 @@ export default class Home extends Component {
     return invokeApig({ path: "/challenges" });
   }
 
+  stravaAuth() {
+    window.location = 'http://www.strava.com/oauth/authorize?client_id=21243&response_type=code&redirect_uri=http://localhost:3000/dashboard&approval_prompt=force&scope=write';
+    console.log('clicked on auth');
+    // ACCESS_TOKEN : "994c4b1bbd953b3900c0980ba3c520b126f0693c",
+    // CLIENT_ID   :"21243",
+    // CLIENT_SECRET :"1fbaa9f1611aea55a35c8d1a4adb440e8d167580",
+    // REDIRECT_URI :"/"
+  }
+
+
+
+  showActivities = () => {
+    let c = this.props.location.search.split('code=')[1];
+    let aCode = null;
+    console.log(c);
+    axios.post('https://www.strava.com/oauth/token', {
+    client_id: '21243',
+    client_secret: '1fbaa9f1611aea55a35c8d1a4adb440e8d167580',
+    code: c
+    }).then(response => {console.log(JSON.stringify(response)); aCode = response.data.access_token; console.log(aCode);return(aCode)})
+      .then(axios.get(`https://www.strava.com/`))
+    
+  }
+
   renderLander() {
     return (
       <div className="lander">
-        <h1>Scratch</h1>
-        <p>A simple challenge app</p>
+        <h1>Project Supertraining</h1>
+        <button onClick={this.stravaAuth}>Authenticate with Strava</button>
+        <button onClick={this.showActivities}>Show all Activities</button>
       </div>
     );
   }
@@ -75,7 +101,7 @@ export default class Home extends Component {
   render() {
     return (
       <div className="Home">
-        {this.props.isAuthenticated ? this.renderchallengesList() ? this.renderchallengesList() : this.renderLander() : this.renderLander()}
+        {this.props.isAuthenticated ? this.renderchallengesList() : this.renderLander()}
       </div>
     );
   }

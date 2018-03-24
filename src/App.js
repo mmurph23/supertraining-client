@@ -1,6 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+import { Auth } from "aws-amplify";
 import { Link, withRouter } from "react-router-dom";
 import { Navbar, NavItem, Nav } from "react-bootstrap";
+import { LinkContainer } from 'react-router-bootstrap';
 import Routes from "./Routes";
 import RouteNavItem from "./components/RouteNavItem";
 import { authUser, signOutUser } from "./libs/awsLib";
@@ -19,12 +21,14 @@ class App extends Component {
 
   async componentDidMount() {
     try {
-      if (await authUser()) {
+      if (await Auth.currentSession()) {
         this.userHasAuthenticated(true);
       }
     }
     catch(e) {
-      alert(e);
+      if (e !== 'No current user') {
+        alert(e);
+      }
     }
   
     this.setState({ isAuthenticating: false });
@@ -34,11 +38,17 @@ class App extends Component {
     this.setState({ isAuthenticated: authenticated });
   }
 
-  handleLogout = event => {
-    signOutUser();
+  
+  
+  userHasAuthenticated = authenticated => {
+    this.setState({ isAuthenticated: authenticated });
+  }
+
+  handleLogout = async event => {
+    await Auth.signOut();
   
     this.userHasAuthenticated(false);
-
+  
     this.props.history.push("/login");
   }
 
@@ -62,14 +72,15 @@ class App extends Component {
             <Nav pullRight>
               {this.state.isAuthenticated
                 ? <NavItem onClick={this.handleLogout}>Logout</NavItem>
-                : [
-                    <RouteNavItem key={1} href="/signup">
-                      Signup
-                    </RouteNavItem>,
-                    <RouteNavItem key={2} href="/login">
-                      Login
-                    </RouteNavItem>
-                  ]}
+                : <Fragment>
+                    <LinkContainer to="/signup">
+                      <NavItem>Signup</NavItem>
+                    </LinkContainer>
+                    <LinkContainer to="/login">
+                      <NavItem>Login</NavItem>
+                    </LinkContainer>
+                  </Fragment>
+              }
             </Nav>
           </Navbar.Collapse>
         </Navbar>

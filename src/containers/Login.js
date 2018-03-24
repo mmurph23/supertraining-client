@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
-import { CognitoUserPool, AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
+import { Auth } from "aws-amplify";
 import "./Login.css";
-import config from "../config";
 
 export default class Login extends Component {
   constructor(props) {
@@ -20,23 +19,6 @@ export default class Login extends Component {
     return this.state.email.length > 0 && this.state.password.length > 0;
   }
 
-  login(email, password) {
-    const userPool = new CognitoUserPool({
-      UserPoolId: config.cognito.USER_POOL_ID,
-      ClientId: config.cognito.APP_CLIENT_ID
-    });
-    const user = new CognitoUser({ Username: email, Pool: userPool });
-    const authenticationData = { Username: email, Password: password };
-    const authenticationDetails = new AuthenticationDetails(authenticationData);
-  
-    return new Promise((resolve, reject) =>
-      user.authenticateUser(authenticationDetails, {
-        onSuccess: result => resolve(),
-        onFailure: err => reject(err)
-      })
-    );
-  }
-
   handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value
@@ -49,10 +31,11 @@ export default class Login extends Component {
     this.setState({ isLoading: true });
   
     try {
-      await this.login(this.state.email, this.state.password);
+      await Auth.signIn(this.state.email, this.state.password);
       this.props.userHasAuthenticated(true);
+      this.props.history.push("/");
     } catch (e) {
-      alert(e);
+      alert(e.message);
       this.setState({ isLoading: false });
     }
   }

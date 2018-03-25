@@ -5,7 +5,6 @@ import { Navbar, NavItem, Nav } from "react-bootstrap";
 import { LinkContainer } from 'react-router-bootstrap';
 import Routes from "./Routes";
 import RouteNavItem from "./components/RouteNavItem";
-import { authUser, signOutUser } from "./libs/awsLib";
 import "./App.css";
 
 class App extends Component {

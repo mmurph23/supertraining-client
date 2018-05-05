@@ -14,20 +14,6 @@ Amplify.configure({
     userPoolId: awsconfig.cognito.USER_POOL_ID,
     identityPoolId: awsconfig.cognito.IDENTITY_POOL_ID,
     userPoolWebClientId: awsconfig.cognito.APP_CLIENT_ID
-  },
-  // Storage: {
-  //   region: awsconfig.s3.REGION,
-  //   bucket: awsconfig.s3.BUCKET,
-  //   identityPoolId: awsconfig.cognito.IDENTITY_POOL_ID
-  // },
-  API: {
-    endpoints: [
-      {
-        name: "supertraining",
-        endpoint: awsconfig.apiGateway.URL,
-        region: awsconfig.apiGateway.REGION
-      },
-    ]
   }
 });
 

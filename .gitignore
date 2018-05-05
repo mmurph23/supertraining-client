@@ -1,6 +1,7 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 #config files
+.env
 aws-config.js
 strava-config.js
 

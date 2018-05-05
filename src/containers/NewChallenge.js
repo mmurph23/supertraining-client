@@ -53,7 +53,7 @@ export default class NewChallenge extends Component {
   }
   
   createChallenge(challenge) {
-    return API.post("challenges", "/challenges", {
+    return API.post("Challenges", "/Challenges", {
       body: challenge
     });
   }

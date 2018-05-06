@@ -1,0 +1,31 @@
+@media all and (min-width: 480px) {
+    .Login {
+      color:#fff;
+    }
+  
+   
+  }
+.Login form .form-group, .Login form button {
+    display: inline-block;
+}
+
+.Login form .form-group-lg .form-control {
+    border-radius: 2px;
+}
+
+.Login form .form-group-lg {
+    margin-right: 20px;
+}
+
+.Login form button {
+    border-radius: 2px;
+    background: #fff;
+    color: #002A7C;
+    font-size: 20px;
+    padding: 7px 20px;
+    margin-top: -78px;
+}
+
+span.help-block {
+    color: #fff;
+}

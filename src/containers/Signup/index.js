@@ -1,13 +1,18 @@
 import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import {
+  Grid,
+  Row,
+  Col,
   HelpBlock,
   FormGroup,
   FormControl,
   ControlLabel
 } from "react-bootstrap";
-import LoaderButton from "../components/LoaderButton";
+import { Link } from 'react-router-dom';
+import LoaderButton from "../../components/LoaderButton";
 import "./Signup.css";
+import background from './chadRide.jpeg';
 
 export default class Signup extends Component {
   constructor(props) {
@@ -43,35 +48,39 @@ export default class Signup extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-  
+
     this.setState({ isLoading: true });
-  
+
     try {
       const newUser = await Auth.signUp({
         username: this.state.email,
-        password: this.state.password
+        password: this.state.password,
+        attributes: {
+          email: this.state.email,
+        },
       });
       this.setState({
         newUser
       });
     } catch (e) {
       alert(e.message);
+      console.log(e);
     }
-  
+
     this.setState({ isLoading: false });
   }
-  
+
   handleConfirmationSubmit = async event => {
     event.preventDefault();
-  
+
     this.setState({ isLoading: true });
-  
+
     try {
       await Auth.confirmSignUp(this.state.email, this.state.confirmationCode);
       await Auth.signIn(this.state.email, this.state.password);
-  
+
       this.props.userHasAuthenticated(true);
-      this.props.history.push("/");
+      this.props.history.push("/Home");
     } catch (e) {
       alert(e.message);
       this.setState({ isLoading: false });
@@ -145,13 +154,39 @@ export default class Signup extends Component {
     );
   }
 
+  subHeader() {
+    return (
+      <div className='subHeader' style={{ width: '100vw', height: '60px', background: '#25829d' }}>
+        <Col xs={12} md={8} style={{ height: '60px' }}></Col>
+        <Col xs={6} md={4} style={{ height: '60px' }}>
+          {/* <div className="sub-links" style={{minWidth:'160px',height:'30px',margin:'15 20 15 0',float:'right'}}>
+            <Link to="/about" style={{margin:'0 40 0 0',height:'30px',display:'inline-block',fontSize:'20px',color:'#fff',padding:'17px 40px'}}>About</Link>
+            <Link to="/blog" style={{margin:'0 40 0 0',height:'30px',display:'inline-block',fontSize:'20px',color:'#fff',padding:'17px 40px'}}>Blog</Link>
+          </div> */}
+        </Col>
+      </div>
+    );
+  }
+
+
   render() {
     return (
-      <div className="Signup">
-        {this.state.newUser === null
-          ? this.renderForm()
-          : this.renderConfirmationForm()}
-      </div>
+      <Grid fluid style={{ backgroundImage: `url(${background})`, height: '100vh', backgroundSize: '100%', backgroundRepeat: 'no-repeat', backgroundPositionY: '60px', paddingLeft: '0px' }}>
+        {this.subHeader()}
+        <Row className="show-grid signup-wrap">
+          <Col xs={12} md={8}>
+
+          </Col>
+          <Col xs={6} md={4}>
+            <div className="Signup">
+              {this.state.newUser === null
+                ? this.renderForm()
+                : this.renderConfirmationForm()}
+            </div>
+          </Col>
+        </Row>
+      </Grid>
+
     );
   }
 }

@@ -1,9 +1,16 @@
 import React, { Component } from "react";
-import { Auth } from 'aws-amplify';
-import { PageHeader, ListGroup, ListGroupItem, Grid, Row, Col } from "react-bootstrap";
-import CreateChallenge from '../CreateChallenge'
+import { Auth } from "aws-amplify";
+import {
+  PageHeader,
+  ListGroup,
+  ListGroupItem,
+  Grid,
+  Row,
+  Col
+} from "react-bootstrap";
+import CreateChallenge from "../CreateChallenge";
 import "./Home.css";
-import api from '../../api';
+import api from "../../api";
 
 export default class Home extends Component {
   constructor(props) {
@@ -12,17 +19,17 @@ export default class Home extends Component {
     this.state = {
       isLoading: true,
       childAccounts: [],
-      caboodles: [],
+      caboodles: []
     };
   }
 
   async componentDidMount() {
     let userData = await api.getUser(this.props.user);
     if (!userData.Item) {
-      console.log('no user data')
+      console.log("no user data");
       api.createUser(this.props.user);
     } else {
-      console.log('user data')
+      console.log("user data");
       let info = userData;
       console.log(userData);
       console.log(info);
@@ -37,11 +44,9 @@ export default class Home extends Component {
     this.userHasAuthenticated(false);
 
     this.props.history.push("/");
-  }
-
+  };
 
   render() {
-
     // let cList = [this.state.caboodles.map(caboodle => {
     //   let c = JSON.parse(caboodle.S);
     //   console.log(c.img + ' ' + c.name + ' ' + c.id);
@@ -52,13 +57,10 @@ export default class Home extends Component {
     // console.log(cList)
 
     return (
-      <div className="Home" style={{ width: '100vw' }}>
+      <div className="Home" style={{ width: "100vw" }}>
         <Row>
-          <Col md={3} >
+          <Col md={12}>
             <CreateChallenge />
-          </Col>
-          <Col md={9} >
-
           </Col>
         </Row>
 
@@ -86,11 +88,7 @@ export default class Home extends Component {
                            {id:4,name:'Firetrucks',img:'https://i.ytimg.com/an_webp/YL_fZIVxLuA/mqdefault_6s.webp?du=3000&sqp=CMCCydYF&rs=AOn4CLAXyRbWm47CoR4wtWi8KL-UhzSBFw'},
                            {id:5,name:'Firetrucks',img:'https://i.ytimg.com/an_webp/YL_fZIVxLuA/mqdefault_6s.webp?du=3000&sqp=CMCCydYF&rs=AOn4CLAXyRbWm47CoR4wtWi8KL-UhzSBFw'},
                           ]}/> */}
-
-
       </div>
     );
   }
 }
-
-

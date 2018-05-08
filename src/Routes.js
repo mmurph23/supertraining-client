@@ -9,6 +9,7 @@ import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
 import NotFound from "./containers/NotFound";
 import CreateChallenge from "./containers/CreateChallenge";
 import AuthProvider from "./containers/AuthProvider";
+import TokenReturn from "./containers/TokenReturn";
 
 export default ({ childProps }) => (
   <Switch>
@@ -16,6 +17,12 @@ export default ({ childProps }) => (
       path="/"
       exact
       component={Signup}
+      props={childProps}
+    />
+    <AppliedRoute
+      path="/TokenReturn"
+      exact
+      component={TokenReturn}
       props={childProps}
     />
     <AuthenticatedRoute
@@ -31,7 +38,7 @@ export default ({ childProps }) => (
       props={childProps}
     />
     <AuthenticatedRoute
-      path="/CreateChallenge"
+      path="/CreateChallenge/"
       exact
       component={CreateChallenge}
       props={childProps}

@@ -22,6 +22,10 @@ export default class AuthProvider extends Component {
     };
   }
 
+  componentWillMount() {
+    localStorage.setItem("code", this.props.location.search);
+  }
+
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;
   }
@@ -32,15 +36,10 @@ export default class AuthProvider extends Component {
     });
   };
 
-  handleSubmit = async event => {
+  handleSubmit = event => {
     event.preventDefault();
-
-    try {
-      alert("strava");
-    } catch (e) {
-      alert(e.message);
-      this.setState({ isLoading: false });
-    }
+    window.location =
+      "http://www.strava.com/oauth/authorize?client_id=21243&response_type=code&redirect_uri=http://localhost:3000/TokenReturn";
   };
 
   render() {

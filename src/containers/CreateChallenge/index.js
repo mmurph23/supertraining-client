@@ -22,6 +22,34 @@ export default class CreateChallenge extends Component {
     };
   }
 
+  async componentDidMount() {
+    let code = localStorage.getItem("code");
+    let authUrl = `https://www.strava.com/oauth/token`;
+    var request = new Request(authUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        client_id: `${process.env.REACT_APP_STRAVA_CLIENT_ID}`,
+        client_secret: `${process.env.REACT_APP_STRAVA_CLIENT_SECRET}`,
+        code: `${code}`
+      })
+    });
+    try {
+      let strava = await fetch(request);
+      console.log("strava");
+      let usable = strava.text();
+      usable.then(txt => {
+        let resObj = JSON.parse(txt);
+        let at = resObj.access_token;
+        let athlete = resObj.athlete.id;
+        localStorage.setItem("at", at);
+        localStorage.setItem("athlete", athlete);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;
   }

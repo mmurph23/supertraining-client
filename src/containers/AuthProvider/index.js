@@ -39,7 +39,7 @@ export default class AuthProvider extends Component {
   handleSubmit = event => {
     event.preventDefault();
     window.location =
-      "http://www.strava.com/oauth/authorize?client_id=21243&response_type=code&redirect_uri=http://localhost:3000/TokenReturn";
+      "http://www.strava.com/oauth/authorize?client_id=21243&response_type=code&redirect_uri=http://localhost:3000/TokenReturn&approval_prompt=force&scope=public";
   };
 
   render() {

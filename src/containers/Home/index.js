@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Auth } from "aws-amplify";
+import { Link, withRouter } from "react-router-dom";
 import {
+  Button,
   PageHeader,
   ListGroup,
   ListGroupItem,
@@ -8,7 +10,6 @@ import {
   Row,
   Col
 } from "react-bootstrap";
-import CreateChallenge from "../CreateChallenge";
 import "./Home.css";
 import api from "../../api";
 
@@ -24,18 +25,7 @@ export default class Home extends Component {
   }
 
   async componentDidMount() {
-    let userData = await api.getUser(this.props.user);
-    if (!userData.Item) {
-      console.log("no user data");
-      api.createUser(this.props.user);
-    } else {
-      console.log("user data");
-      let info = userData;
-      console.log(userData);
-      console.log(info);
-      // this.setState({childAccounts: info.Item.childAccounts.L, caboodles: info.Item.caboodles.L})
-    }
-    // let newChild = await api.createChildUser('test@test.com','Sarah');
+    // this.setState({childAccounts: info.Item.childAccounts.L, caboodles: info.Item.caboodles.L})
   }
 
   handleLogout = async event => {
@@ -59,8 +49,15 @@ export default class Home extends Component {
     return (
       <div className="Home" style={{ width: "100vw" }}>
         <Row>
-          <Col md={12}>
-            <CreateChallenge />
+          <Col md={6} style={{ paddingTop: "80px", textAlign: "center" }}>
+            <Link to="/AuthProvider">
+              <Button>Create Challenge</Button>
+            </Link>
+          </Col>
+          <Col md={6} style={{ paddingTop: "80px", textAlign: "center" }}>
+            <Link to="/Home">
+              <Button>Go to Profile</Button>
+            </Link>
           </Col>
         </Row>
 

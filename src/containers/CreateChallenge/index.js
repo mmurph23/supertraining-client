@@ -64,15 +64,49 @@ export default class CreateChallenge extends Component {
     event.preventDefault();
 
     try {
-      let uid = uuid();
-      let mileage = await await api.createChallenge(
-        this.state.challengeName,
-        uid
-      );
-      this.props.history.push({
-        pathname: "/EditChallenge",
-        state: { challengeId: uid }
+      let access = localStorage.getItem("at");
+      let code = localStorage.getItem("code");
+      let id = localStorage.getItem("athlete");
+      let athleteUrl = `https://www.strava.com/api/v3/athletes/${id}/stats?page=&per_page=`;
+      let request = new Request(athleteUrl, {
+        method: "GET",
+        mode: "cors",
+        cache: "no-cache",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: ` Bearer ${access}`
+        }
       });
+      let updateObj = {};
+      let uid = uuid();
+      let stats = await fetch(request);
+      let usable = stats.text();
+      usable.then(txt => {
+        let resObj = JSON.parse(txt);
+        console.log(resObj);
+        this.setState({
+          startingMilage: resObj.all_ride_totals.distance
+        });
+        updateObj = {
+          name: this.state.challengeName,
+          id: uid,
+          desc: this.state.challengeDesc,
+          url: this.state.challengeLink,
+          mileage: this.state.startingMilage
+        };
+        console.log("updateObj");
+        console.log(updateObj);
+        return updateObj;
+      });
+
+      // let mileage = await await api.createChallenge(
+      //   this.state.challengeName,
+      //   uid
+      // );
+      // this.props.history.push({
+      //   pathname: "/EditChallenge",
+      //   state: { challengeId: uid }
+      // });
     } catch (e) {
       alert(e.message);
       this.setState({ isLoading: false });

@@ -41,17 +41,23 @@ const api = {
     };
     return dynamodb.putItem(params).promise();
   },
-  createChallenge(name, id, mileage) {
+  createChallenge(challenge) {
     let params = {
       Item: {
         challengeId: {
-          S: id
+          S: challenge.id
         },
         challengeName: {
-          S: name
+          S: challenge.name
+        },
+        challengeDescription: {
+          S: challenge.desc
+        },
+        challengeUrl: {
+          S: challenge.url
         },
         startingMileage: {
-          N: mileage
+          N: challenge.mileage
         }
       },
       ReturnConsumedCapacity: "TOTAL",

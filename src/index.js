@@ -22,11 +22,10 @@ Amplify.configure({
   }
 });
 
-
 ReactDOM.render(
   <Router>
     <App />
   </Router>,
   document.getElementById("root")
 );
-registerServiceWorker(); 
+registerServiceWorker();
